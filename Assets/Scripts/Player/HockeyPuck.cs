@@ -32,6 +32,7 @@ public class HockeyPuck : MonoBehaviour {
         if (currentControllingPlayer != null)
         {
             transform.position = currentControllingPlayer.GetPuckHoldingPos();
+            myRigidbody.velocity = Vector3.zero;
         }
     }
 
@@ -43,7 +44,7 @@ public class HockeyPuck : MonoBehaviour {
         }
         currentControllingPlayer = player;
         //transform.parent = currentControllingPlayer.puckPosition.transform;
-        transform.localPosition = Vector3.zero;
+        //transform.localPosition = Vector3.zero;
         myRigidbody.velocity = Vector3.zero;
     }
 

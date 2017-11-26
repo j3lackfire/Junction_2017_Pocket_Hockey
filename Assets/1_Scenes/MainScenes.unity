@@ -359,6 +359,11 @@ Prefab:
       propertyPath: m_Constraints
       value: 112
       objectReference: {fileID: 0}
+    - target: {fileID: 54150447068509686, guid: 8d52ab91d33bfb84499087e0a7e53d64,
+        type: 2}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8d52ab91d33bfb84499087e0a7e53d64, type: 2}
   m_IsPrefabParent: 0
@@ -2036,6 +2041,11 @@ Prefab:
       propertyPath: m_Constraints
       value: 112
       objectReference: {fileID: 0}
+    - target: {fileID: 54150447068509686, guid: 8d52ab91d33bfb84499087e0a7e53d64,
+        type: 2}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8d52ab91d33bfb84499087e0a7e53d64, type: 2}
   m_IsPrefabParent: 0
@@ -2387,6 +2397,11 @@ Prefab:
       propertyPath: m_Name
       value: My_HockeyPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 54150447068509686, guid: 8d52ab91d33bfb84499087e0a7e53d64,
+        type: 2}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8d52ab91d33bfb84499087e0a7e53d64, type: 2}
   m_IsPrefabParent: 0
@@ -2684,6 +2699,11 @@ Prefab:
         type: 2}
       propertyPath: m_Constraints
       value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 54150447068509686, guid: 8d52ab91d33bfb84499087e0a7e53d64,
+        type: 2}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8d52ab91d33bfb84499087e0a7e53d64, type: 2}
