@@ -19,7 +19,7 @@ public class EnemyTeamManager : TeamManager
     public override void DoUpdate()
     {
         meltDownTimer -= Time.deltaTime;
-        if (meltDownTimer <= 0f && !director.playerTeamManager.meltDown)
+        if (meltDownTimer <= 0f && !director.playerTeamManager.meltDown && IsControllingPuck())
         {
             SpeedUp();
             meltDownTimer = 30f;
@@ -94,6 +94,10 @@ public class EnemyTeamManager : TeamManager
     private void RandomizeDecision(HockeyPlayer h, HockeyPlayer other)
     {
         int choice = Random.Range(0, 10);
+        if (h.transform.position.x < -38f)
+        {
+            choice = Random.Range(0, 4);
+        }
         switch(choice)
         {
             case 0:
