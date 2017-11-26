@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InputManager : BaseManager {
 
@@ -14,9 +15,11 @@ public class InputManager : BaseManager {
 
     public override void DoUpdate()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)
+            && !EventSystem.current.IsPointerOverGameObject())
         {
-            playerController.controllingPlayer.PassingPuck();
+            playerController.controllingPlayer.PassingPuck(Camera.main.ScreenToWorldPoint(Input.mousePosition), 
+                Ultilities.CalculateShootingPower(playerController.controllingPlayer.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
         }
     }
 }

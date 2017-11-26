@@ -14,6 +14,8 @@ public class TeamManager : BaseManager {
     protected float updateAnotherPlayerPosTimer = 0.5f;
     protected float updateAnotherPosCountDown;
 
+    public bool meltDown = false;
+
     public override void Init()
     {
         base.Init();
@@ -98,15 +100,14 @@ public class TeamManager : BaseManager {
             -10.25f);
     }
 
-    private bool melthDown = false;
-
     public void SpeedUp()
     {
-        if (melthDown)
+        if (meltDown)
         {
             return;
         }
-        melthDown = true;
+        meltDown = true;
+        director.uiManager.MeltDownPause();
         foreach (HockeyPlayer p in myPlayers)
         {
             p.playerMoveSpeed = 20f;
@@ -132,11 +133,11 @@ public class TeamManager : BaseManager {
 
     public void BackToNormal()
     {
-        if (!melthDown)
+        if (!meltDown)
         {
             return;
         }
-        melthDown = false;
+        meltDown = false;
         foreach (HockeyPlayer p in director.enemyTeamManager.myPlayers)
         {
             p.playerMoveSpeed = 20f;

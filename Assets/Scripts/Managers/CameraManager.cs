@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CameraManager : BaseManager {
 
@@ -13,14 +14,15 @@ public class CameraManager : BaseManager {
     [SerializeField]
     private float cameraMoveSpeed = 2f;
 
-    private Vector3 positionToFollow;
+    [ReadOnly][SerializeField]
+    private Vector3 originalPos;
 
     public override void Init()
     {
         base.Init();
-        positionToFollow = Vector3.zero;
 
         mainCamera = transform.Find("Main_Camera").GetComponent<Camera>();
+        originalPos = new Vector3(0f, 15f, 3.5f);
 
         playerController = FindObjectOfType<HockeyPlayer>();
 
@@ -30,10 +32,6 @@ public class CameraManager : BaseManager {
     public override void DoUpdate()
     {
         base.DoUpdate();
-        positionToFollow = Vector3.zero;
-        //FollowPlayer();
-
-        MoveToPos();
     }
 
     private void AdjustCameraSize()
@@ -41,9 +39,13 @@ public class CameraManager : BaseManager {
         //since the screen is usually 16:9, so when the player look up, the camera should zoom out
     }
 
-    private void MoveToPos()
+    public void DoScreenShake()
     {
-        //transform.position = Vector3.Lerp(transform.position, positionToFollow, 1f);
-        transform.position = Vector3.MoveTowards(transform.position, positionToFollow, Time.deltaTime * cameraMoveSpeed);
+        Vector3 newPos = originalPos + new Vector3(0.5f, 0f, 0.25f);
+        Vector3 newPos_2 = originalPos + new Vector3(-0.3f, 0f, 0.15f);
+        Sequence s = DOTween.Sequence();
+        s.Append(mainCamera.transform.DOLocalMove(newPos, 0.15f));
+        s.Append(mainCamera.transform.DOLocalMove(newPos_2, 0.2f));
+        s.Append(mainCamera.transform.DOLocalMove(originalPos, 0.1f));
     }
 }

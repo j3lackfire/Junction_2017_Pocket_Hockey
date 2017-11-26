@@ -1,6 +1,7 @@
 ﻿//using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Director : MonoBehaviour {
 
@@ -27,6 +28,8 @@ public class Director : MonoBehaviour {
 
     public UIManager uiManager;
 
+    public bool isGameStarted = false;
+
     public void Awake()
     {
         #region singleton check
@@ -51,8 +54,33 @@ public class Director : MonoBehaviour {
         InitManager();
     }
 
+    public void StartGame()
+    {
+        isGameStarted = true;
+        uiManager.scorePanel.SetActive(true);
+        uiManager.logoPanel.SetActive(false);
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            RestartGame();
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            StartGame();
+        }
+        if (!isGameStarted)
+        {
+            return;
+        }
+
         for (int i = 0; i < managersList.Count; i++)
         {
             managersList[i].DoUpdate();

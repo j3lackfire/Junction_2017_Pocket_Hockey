@@ -180,15 +180,13 @@ public class HockeyPlayer : MonoBehaviour
         }
     }
 
-    public void PassingPuck()
+    public void PassingPuck(Vector3 pos, float power)
     {
         playerRenderer.PlayAnimation(AnimationType.Strike);
         if (interactingPuck != null)
         {
-            Vector3 v = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 lookAtPos = new Vector3(v.x, transform.position.y, v.z);
-            Vector3 shotDirection = new Vector3(v.x - transform.position.x, 0f, v.z - transform.position.z);
-            interactingPuck.OnBeingShot(shotDirection, shootPower * baseShootingPower);
+            Vector3 shotDirection = new Vector3(pos.x - transform.position.x, 0f, pos.z - transform.position.z);
+            interactingPuck.OnBeingShot(shotDirection, power * baseShootingPower);
             OnLosingPuck();
         }
     }
@@ -207,24 +205,34 @@ public class HockeyPlayer : MonoBehaviour
             HockeyPuck puck = collision.gameObject.GetComponent<HockeyPuck>();
             if (puck.currentControllingPlayer == null)
             {
+                if (isPlayerTeam)
+                {
+                    Director.instance.cameraManager.DoScreenShake();
+                }
                 OnTouchingPuck(collision.gameObject.GetComponent<HockeyPuck>());
             } else
             {
                 //teamates
                 if (puck.currentControllingPlayer.isPlayerTeam == isPlayerTeam)
                 {
+                    if (isPlayerTeam)
+                    {
+                        Director.instance.cameraManager.DoScreenShake();
+                    }
                     OnTouchingPuck(collision.gameObject.GetComponent<HockeyPuck>());
                 } else
                 {
                     //win battle
                     if (BattleForPuck(puck.currentControllingPlayer))
                     {
+                        Director.instance.cameraManager.DoScreenShake();
                         DoShrinkSequence();
                         puck.currentControllingPlayer.PushBack();
                         OnTouchingPuck(collision.gameObject.GetComponent<HockeyPuck>());
                     }
                     else //lose battle
                     {
+                        Director.instance.cameraManager.DoScreenShake();
                         puck.currentControllingPlayer.DoShrinkSequence();
                         PushBack();
                     }
