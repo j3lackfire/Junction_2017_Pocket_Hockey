@@ -7,6 +7,8 @@ public class PlayerController : BaseManager {
     public PlayerTeamManager playerTeamManager;
     public HockeyPlayer controllingPlayer;
 
+    public LineRenderer lr;
+
     public override void Init()
     {
         base.Init();
@@ -26,6 +28,17 @@ public class PlayerController : BaseManager {
         base.DoUpdate();
 
         CheckMovementInput();
+
+        if (controllingPlayer.IsHoldingPuck())
+        {
+            lr.SetPosition(0, controllingPlayer.transform.position);
+            lr.SetPosition(1, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        } else
+        {
+            lr.SetPosition(0, Vector3.one * 100f);
+            lr.SetPosition(1, Vector3.one * 100f);
+        }
+        
     }
 
     private void CheckMovementInput()

@@ -102,7 +102,7 @@ public class EnemyTeamManager : TeamManager
         {
             case 0:
                 //strike
-                Vector3 goalPos = new Vector3(-44f, 0f, Random.Range(-5.5f, 5.5f));
+                Vector3 goalPos = new Vector3(-44f, 0f, Random.Range(-7.5f, 7.5f));
                 h.PassingPuck(goalPos, Ultilities.CalculateShootingPower(h.transform.position, goalPos) + 1);
                 break;
             case 1:

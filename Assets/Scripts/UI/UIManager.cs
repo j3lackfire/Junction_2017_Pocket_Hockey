@@ -61,6 +61,10 @@ public class UIManager : BaseManager {
     public override void DoUpdate()
     {
         base.DoUpdate();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            MeltDownPlayerTeam();
+        }
         if (cachedTimeTillCountdown >= 0f)
         {
             cachedTimeTillCountdown -= Time.deltaTime;
@@ -73,6 +77,7 @@ public class UIManager : BaseManager {
                 mdSequence.Append(meltDownText.transform.DOScale(1.2f,0.5f));
                 mdSequence.Append(meltDownText.transform.DOScale(1f, 0.5f));
                 mdSequence.SetLoops(-1, LoopType.Restart);
+                meltDownText.text = "PRESS [SPACE]";
             }
         }
 
@@ -82,6 +87,7 @@ public class UIManager : BaseManager {
             if (meltDownTime <= 0)
             {
                 director.playerTeamManager.BackToNormal();
+                meltDownText.text = "MELT DOWN!";
             }
         }
 
