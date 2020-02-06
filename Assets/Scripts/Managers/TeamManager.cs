@@ -14,8 +14,6 @@ public class TeamManager : BaseManager {
     protected float updateAnotherPlayerPosTimer = 0.5f;
     protected float updateAnotherPosCountDown;
 
-    public bool meltDown = false;
-
     public override void Init()
     {
         base.Init();
@@ -98,55 +96,5 @@ public class TeamManager : BaseManager {
             isPlayerTeam ? -14.5f : 14.5f,
             0f,
             -10.25f);
-    }
-
-    public void SpeedUp()
-    {
-        if (meltDown)
-        {
-            return;
-        }
-        meltDown = true;
-        director.uiManager.MeltDownPause();
-        foreach (HockeyPlayer p in myPlayers)
-        {
-            p.playerMoveSpeed = 20f;
-        }
-
-        if (isPlayerTeam)
-        {
-            foreach (HockeyPlayer p in director.enemyTeamManager.myPlayers)
-            {
-                p.playerMoveSpeed = 2;
-            }
-            director.enemyTeamManager.goalKeeper.moveSpeed = 4f;
-        }
-        else
-        {
-            foreach (HockeyPlayer p in director.playerTeamManager.myPlayers)
-            {
-                p.playerMoveSpeed = 2;
-            }
-            director.playerTeamManager.goalKeeper.moveSpeed = 4f;
-        }
-    }
-
-    public void BackToNormal()
-    {
-        if (!meltDown)
-        {
-            return;
-        }
-        meltDown = false;
-        foreach (HockeyPlayer p in director.enemyTeamManager.myPlayers)
-        {
-            p.playerMoveSpeed = 20f;
-        }
-        foreach (HockeyPlayer p in director.playerTeamManager.myPlayers)
-        {
-            p.playerMoveSpeed = 20f;
-        }
-        director.playerTeamManager.goalKeeper.moveSpeed = 12f;
-        director.enemyTeamManager.goalKeeper.moveSpeed = 12f;
     }
 }
