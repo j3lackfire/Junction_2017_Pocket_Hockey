@@ -3094,6 +3094,11 @@ PrefabInstance:
       propertyPath: defaultPower
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114127055627639822, guid: 8d52ab91d33bfb84499087e0a7e53d64,
+        type: 3}
+      propertyPath: powerAcceleration
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 212438833674346894, guid: 8d52ab91d33bfb84499087e0a7e53d64,
         type: 3}
       propertyPath: m_Sprite
