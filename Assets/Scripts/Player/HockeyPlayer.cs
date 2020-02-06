@@ -172,10 +172,10 @@ public class HockeyPlayer : MonoBehaviour
         myRigidbody.velocity = Vector3.zero;
         myRigidbody.detectCollisions = false;
 
-        if (isPlayerTeam)
-        {
-            Director.instance.playerTeamManager.SetControllingPlayer(this);
-        }
+        // if (isPlayerTeam)
+        // {
+        //     Director.instance.playerTeamManager.SetControllingPlayer(this);
+        // }
     }
 
     public void PassingPuck(Vector3 pos, float power)
