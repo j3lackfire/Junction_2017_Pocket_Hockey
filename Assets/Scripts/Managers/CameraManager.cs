@@ -39,6 +39,7 @@ public class CameraManager : BaseManager {
         //since the screen is usually 16:9, so when the player look up, the camera should zoom out
     }
 
+    //this thing give me nausia, omg. Now I know what is too much screen shake!
     public void DoScreenShake()
     {
         Vector3 newPos = originalPos + new Vector3(0.5f, 0f, 0.25f);

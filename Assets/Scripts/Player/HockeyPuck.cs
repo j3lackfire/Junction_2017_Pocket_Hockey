@@ -43,14 +43,11 @@ public class HockeyPuck : MonoBehaviour {
             currentControllingPlayer.OnLosingPuck();
         }
         currentControllingPlayer = player;
-        //transform.parent = currentControllingPlayer.puckPosition.transform;
-        //transform.localPosition = Vector3.zero;
         myRigidbody.velocity = Vector3.zero;
     }
 
     public void OnBeingShot(Vector3 direction, float power)
     {
-        Director.instance.cameraManager.DoScreenShake();
         currentControllingPlayer = null;
         transform.parent = null;
         myRigidbody.AddForce(direction.normalized * power);

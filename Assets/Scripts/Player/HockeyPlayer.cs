@@ -173,11 +173,6 @@ public class HockeyPlayer : MonoBehaviour
         puck.OnPlayerInteract(this);
         myRigidbody.velocity = Vector3.zero;
         myRigidbody.detectCollisions = false;
-
-        if (isPlayerTeam)
-        {
-            Director.instance.playerTeamManager.SetControllingPlayer(this);
-        }
     }
 
     public void PassingPuck(Vector3 pos, float power)
@@ -207,7 +202,7 @@ public class HockeyPlayer : MonoBehaviour
             {
                 if (isPlayerTeam)
                 {
-                    Director.instance.cameraManager.DoScreenShake();
+                    // Director.instance.cameraManager.DoScreenShake();
                 }
                 OnTouchingPuck(collision.gameObject.GetComponent<HockeyPuck>());
             } else
@@ -217,7 +212,7 @@ public class HockeyPlayer : MonoBehaviour
                 {
                     if (isPlayerTeam)
                     {
-                        Director.instance.cameraManager.DoScreenShake();
+                        // Director.instance.cameraManager.DoScreenShake();
                     }
                     OnTouchingPuck(collision.gameObject.GetComponent<HockeyPuck>());
                 } else
@@ -225,14 +220,14 @@ public class HockeyPlayer : MonoBehaviour
                     //win battle
                     if (BattleForPuck(puck.currentControllingPlayer))
                     {
-                        Director.instance.cameraManager.DoScreenShake();
+                        // Director.instance.cameraManager.DoScreenShake();
                         DoShrinkSequence();
                         puck.currentControllingPlayer.PushBack();
                         OnTouchingPuck(collision.gameObject.GetComponent<HockeyPuck>());
                     }
                     else //lose battle
                     {
-                        Director.instance.cameraManager.DoScreenShake();
+                        // Director.instance.cameraManager.DoScreenShake();
                         puck.currentControllingPlayer.DoShrinkSequence();
                         PushBack();
                     }
