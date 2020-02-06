@@ -4,37 +4,15 @@ using UnityEngine;
 
 public class EnemyTeamManager : TeamManager
 {
-    public float meltDownTimer = 30f;
-    public float meltDownDuration = -1f;
-
     public float cachedDecisionTime = -1f;
 
     public override void Init()
     {
         base.Init();
-        meltDownTimer = 40f;
-        meltDownDuration = -1f;
     }
 
     public override void DoUpdate()
     {
-        meltDownTimer -= Time.deltaTime;
-        if (meltDownTimer <= 0f && !director.playerTeamManager.meltDown)
-        {
-            SpeedUp();
-            meltDownTimer = 30f;
-            meltDownDuration = 5f;
-        }
-        if (meltDownDuration > 0f )
-        {
-            meltDownDuration -= Time.unscaledDeltaTime;
-            if (meltDownDuration < 0f)
-            {
-                BackToNormal();
-            }
-        }
-
-
         base.DoUpdate();
 
         if (IsControllingPuck())

@@ -73,9 +73,7 @@ public class HockeyPlayer : MonoBehaviour
             float pushBackSpeed = 20f;
             myRigidbody.velocity = new Vector3(
                 stunCownDown * (playerRenderer.isFacingLeft ? pushBackSpeed : -pushBackSpeed),
-                0f,
-                0f
-                );
+                0f, 0f );
         }
         if (cachedPuckInteractionTime >= 0f)
         {
