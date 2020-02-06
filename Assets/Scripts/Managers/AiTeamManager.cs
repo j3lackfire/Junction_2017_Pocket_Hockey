@@ -66,32 +66,6 @@ public class AiTeamManager : TeamManager
 
     private void RandomizeDecision(HockeyPlayer h, HockeyPlayer other)
     {
-        int direction = isPlayerTeam ? 1 : -1; //so that we know to move left or right
-        int choice = Random.Range(0, 10);
-         //if the puck is passed the goal line
-        if (Mathf.Abs(h.transform.position.x) > 38f)
-        {
-            choice = Random.Range(0, 4);
-        }
-        switch(choice)
-        {
-            case 0:
-                //strike
-                Vector3 goalPos = new Vector3(44f * direction, 0f, Random.Range(-7.5f, 7.5f));
-                h.PassingPuck(goalPos, Ultilities.CalculateShootingPower(h.transform.position, goalPos) + 1);
-                break;
-            case 1:
-            case 2:
-            case 3:
-                //pass ball
-                h.PassingPuck(other.transform.position + new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-2f, 2f)),
-                    Ultilities.CalculateShootingPower(h.transform.position, other.transform.position));
-                break;
-            default:
-                //move
-                Vector3 posToMove = new Vector3(38f * direction, 0f, Random.Range(-20f, 20f));
-                h.MoveToPosition(posToMove);
-                break;
-        }
+        h.DoRandomizeDecision(other);
     }
 }

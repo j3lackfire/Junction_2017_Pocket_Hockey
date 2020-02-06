@@ -8,7 +8,7 @@ public class GoalKeeper : MonoBehaviour {
     private Vector3 targetPosition;
     private Vector3 centerGoalPosition = new Vector3(44f, 0f, 0f);
     float distanceToGoal = 5f;
-    private float moveSpeed = 6f;
+    private float moveSpeed = 8f;
     private float currentTimer;
     private float updatePositionTime = 0.05f;
 
@@ -41,7 +41,7 @@ public class GoalKeeper : MonoBehaviour {
             puckPosition.x - centerGoalPosition.x,
             0f, puckPosition.z - centerGoalPosition.z).normalized;
         targetPosition = centerGoalPosition + newDirection * distanceToGoal;
-        RandomizeTargetPosition();
+        // RandomizeTargetPosition();
     }
 
     private void MoveToPos()

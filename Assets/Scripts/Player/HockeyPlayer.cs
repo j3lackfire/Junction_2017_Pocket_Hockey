@@ -20,20 +20,28 @@ public class HockeyPlayer : MonoBehaviour
     [ReadOnly]
     public bool isMoving;
 
-    [SerializeField]
-    private float shootPower = 10f;
-
     [ReadOnly]
     [SerializeField] //we need the number so high because the way 
     //the unity physic works.
-    private float baseShootingPower = 1000f;
+    private float shootingPowerMultiplier = 1000f;
 
+    //Object properties
+    public float initialMoveSpeed = 18f;
+    public float acceleration = 5f;
+    public float maxSpeed = 40f;
 
-    public readonly float initialMoveSpeed = 18f;
-    public readonly float acceleration = 5f;
-    public readonly float maxSpeed = 40f;
+    public int combatWeight = 50;
+    public int moveChance = 20;
+    public int passChance = 10;
+    public int shootChance = 4;
 
     private float moveSpeed = 0f;
+
+    [SerializeField]
+    public float defaultPower = 1.5f;
+    [SerializeField]
+    public float powerAcceleration = 2f;
+    private float currentPower;    
 
     protected Vector3 mousePosition;
 
@@ -74,6 +82,7 @@ public class HockeyPlayer : MonoBehaviour
     {
         if (IsHoldingPuck()) {
             ResetMoveSpeed();
+            currentPower += acceleration * Time.deltaTime;
         }
         stunCownDown -= Time.deltaTime;
         if (IsStunned())
@@ -81,9 +90,7 @@ public class HockeyPlayer : MonoBehaviour
             float pushBackSpeed = 20f;
             myRigidbody.velocity = new Vector3(
                 stunCownDown * (playerRenderer.isFacingLeft ? pushBackSpeed : -pushBackSpeed),
-                0f,
-                0f
-                );
+                0f, 0f);
         }
         if (cachedPuckInteractionTime >= 0f)
         {
@@ -107,6 +114,38 @@ public class HockeyPlayer : MonoBehaviour
         if (Mathf.Abs(transform.position.x) >= 48f)
         {
             transform.position = new Vector3(transform.position.x > 0 ? 48f : -48f, 0f, transform.position.z );
+        }
+    }
+
+    public void DoRandomizeDecision(HockeyPlayer other) {
+        int direction = isPlayerTeam ? 1 : -1; //so that we know to move left or right
+        int sum = moveChance + passChance + shootChance;
+        int choice = Random.Range(0, sum);
+        if (choice < moveChance) {
+            //do move
+            Vector3 posToMove = new Vector3(38f * direction, 0f, Random.Range(-20f, 20f));
+            MoveToPosition(posToMove);
+        } else {
+            if (choice < moveChance + passChance) {
+                float maxPassingPower = Ultilities.CalculateShootingPower(transform.position, other.transform.position);
+                if (currentPower < maxPassingPower - 0.5f) {
+                    DoRandomizeDecision(other);
+                } else {
+                    float passingPower = Mathf.Min(maxPassingPower + 0.5f, currentPower);
+                    PassingPuck(other.transform.position + new Vector3(Random.Range(-1f, 1f), 
+                                0f,  Random.Range(-2f, 2f)),  passingPower);
+                }
+            } else {
+                //shoot
+                Vector3 goalPos = new Vector3(44f * direction, 0f, Random.Range(-5.5f, 5.5f));
+                float shootPower = Ultilities.CalculateShootingPower(transform.position, goalPos);
+                if (currentPower < shootPower - 1f) {
+                    DoRandomizeDecision(other);
+                } else {
+                    float passPower = Mathf.Min(shootPower + 1.5f, currentPower);
+                    PassingPuck(goalPos, currentPower);
+                }
+            }
         }
     }
 
@@ -182,13 +221,14 @@ public class HockeyPlayer : MonoBehaviour
         if (interactingPuck != null)
         {
             Vector3 shotDirection = new Vector3(pos.x - transform.position.x, 0f, pos.z - transform.position.z);
-            interactingPuck.OnBeingShot(shotDirection, power * baseShootingPower);
+            interactingPuck.OnBeingShot(shotDirection, power * shootingPowerMultiplier);
             OnLosingPuck();
         }
     }
 
     public void OnLosingPuck()
     {
+        currentPower = defaultPower;
         cachedPuckInteractionTime = puckInteractionTime;
         interactingPuck = null;
     }
@@ -196,6 +236,7 @@ public class HockeyPlayer : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         ResetMoveSpeed();
+        currentPower = defaultPower;
         if (collision.gameObject.layer == HockeyPuck.GetPuckLayer()
             && cachedPuckInteractionTime <= 0f)
         {
@@ -238,7 +279,9 @@ public class HockeyPlayer : MonoBehaviour
         {
             return false;
         }
-        return Random.Range(0f, 1f) >= 0.3f;
+        int sum = combatWeight + _enemyPlayer.combatWeight;
+        int result = Random.Range(0, sum);
+        return result < combatWeight;
     }
 
     public void PushBack()
