@@ -28,8 +28,12 @@ public class HockeyPlayer : MonoBehaviour
     //the unity physic works.
     private float baseShootingPower = 1000f;
 
-    [SerializeField]
-    public float playerMoveSpeed = 1f;
+
+    public readonly float initialMoveSpeed = 18f;
+    public readonly float acceleration = 5f;
+    public readonly float maxSpeed = 40f;
+
+    private float moveSpeed = 0f;
 
     protected Vector3 mousePosition;
 
@@ -63,10 +67,14 @@ public class HockeyPlayer : MonoBehaviour
 
         selectingArrow.gameObject.SetActive(false);
 
+        ResetMoveSpeed();
     }
 
     private void Update()
     {
+        if (IsHoldingPuck()) {
+            ResetMoveSpeed();
+        }
         stunCownDown -= Time.deltaTime;
         if (IsStunned())
         {
@@ -102,6 +110,10 @@ public class HockeyPlayer : MonoBehaviour
         }
     }
 
+    private void ResetMoveSpeed() {
+        moveSpeed = initialMoveSpeed;
+    }
+
     public void MoveToPosition(Vector3 _position)
     {
         Vector3 targetPos = new Vector3(_position.x - myCollider.center.x, 0f, _position.z - myCollider.center.z);
@@ -121,7 +133,7 @@ public class HockeyPlayer : MonoBehaviour
             isMoving = true;
             playerRenderer.PlayAnimation(AnimationType.Move_Without_Puck);
         }
-        myRigidbody.velocity = new Vector3(_direction.x, 0f, _direction.y) * playerMoveSpeed;
+        myRigidbody.velocity = new Vector3(_direction.x, 0f, _direction.y) * moveSpeed;
         playerRenderer.SetFacing(_direction.x);
     }
 
@@ -137,23 +149,11 @@ public class HockeyPlayer : MonoBehaviour
         }
     }
 
-    public void StopMoving()
-    {
-        if (IsStunned())
-        {
-            return;
-        }
-        if (isMoving)
-        {
-            isMoving = false;
-            playerRenderer.PlayAnimation(AnimationType.Idle);
-        }
-        myRigidbody.velocity = Vector3.zero;
-    }
-
     public void MoveToPuck()
     {
         MoveToPosition(HockeyPuck.GetInstance().transform.position);
+        
+        moveSpeed = Mathf.Min(moveSpeed + acceleration * Time.deltaTime, maxSpeed);
     }
 
     public bool IsHoldingPuck()
@@ -177,6 +177,7 @@ public class HockeyPlayer : MonoBehaviour
 
     public void PassingPuck(Vector3 pos, float power)
     {
+        ResetMoveSpeed();
         playerRenderer.PlayAnimation(AnimationType.Strike);
         if (interactingPuck != null)
         {
@@ -194,40 +195,31 @@ public class HockeyPlayer : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        ResetMoveSpeed();
         if (collision.gameObject.layer == HockeyPuck.GetPuckLayer()
             && cachedPuckInteractionTime <= 0f)
         {
             HockeyPuck puck = collision.gameObject.GetComponent<HockeyPuck>();
             if (puck.currentControllingPlayer == null)
             {
-                if (isPlayerTeam)
-                {
-                    // Director.instance.cameraManager.DoScreenShake();
-                }
                 OnTouchingPuck(collision.gameObject.GetComponent<HockeyPuck>());
             } else
             {
                 //teamates
                 if (puck.currentControllingPlayer.isPlayerTeam == isPlayerTeam)
                 {
-                    if (isPlayerTeam)
-                    {
-                        // Director.instance.cameraManager.DoScreenShake();
-                    }
                     OnTouchingPuck(collision.gameObject.GetComponent<HockeyPuck>());
                 } else
                 {
                     //win battle
                     if (BattleForPuck(puck.currentControllingPlayer))
                     {
-                        // Director.instance.cameraManager.DoScreenShake();
                         DoShrinkSequence();
                         puck.currentControllingPlayer.PushBack();
                         OnTouchingPuck(collision.gameObject.GetComponent<HockeyPuck>());
                     }
                     else //lose battle
                     {
-                        // Director.instance.cameraManager.DoScreenShake();
                         puck.currentControllingPlayer.DoShrinkSequence();
                         PushBack();
                     }
@@ -260,6 +252,7 @@ public class HockeyPlayer : MonoBehaviour
         {
             transform.position += new Vector3(-1f, 0f, 0f);
         }
+        ResetMoveSpeed();
     }
 
     public bool IsStunned()

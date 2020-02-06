@@ -26,7 +26,7 @@ public class CameraManager : BaseManager {
 
         playerController = FindObjectOfType<HockeyPlayer>();
 
-        cameraMoveSpeed = 1.2f * playerController.playerMoveSpeed;
+        cameraMoveSpeed = 1.2f * playerController.initialMoveSpeed;
     }
 
     public override void DoUpdate()

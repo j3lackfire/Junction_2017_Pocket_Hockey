@@ -20,7 +20,7 @@ public class UIManager : BaseManager {
     public Text playerScoreText;
     public Text enemyScoreText;
 
-    Sequence mdSequence;
+    public Button replayGameButton;
 
     public float cachedTimeTillCountdown = 30f;
     public float timeTillCountDown = 10f;
@@ -39,7 +39,8 @@ public class UIManager : BaseManager {
         cachedTimeTillCountdown = timeTillCountDown;
 
         scorePanel.gameObject.SetActive(false);
-        PauseGame(2f);
+        replayGameButton.gameObject.SetActive(false);
+        PauseGame(0.5f);
     }
 
     public override void DoUpdate()
@@ -69,6 +70,7 @@ public class UIManager : BaseManager {
 
     public void ContinueGame()
     {
+        endGamePanel.gameObject.SetActive(false);
         isPause = false;
         Time.timeScale = 1f;
     }
@@ -82,6 +84,7 @@ public class UIManager : BaseManager {
 
     public void EndMatch()
     {
+        replayGameButton.gameObject.SetActive(true);
         endGamePanel.gameObject.SetActive(true);
         PauseGame(999f);
         string display = "";
@@ -112,15 +115,24 @@ public class UIManager : BaseManager {
 
     public void DoScore(bool isPlayer)
     {
+        string extra = "";
         if (isPlayer)
         {
+            extra += "Good job my dude!";
             playerScore++;
             playerScoreText.text = playerScore.ToString();
         } else
         {
+            extra += "Enemy score! Oh no...";
             enemyScore++;
             enemyScoreText.text = enemyScore.ToString();
         }
+        endGamePanel.gameObject.SetActive(true);
+        
+        string display = string.Format("<color=#0044AAFF>{0}</color>   -   <color=#AA0000FF>{1}</color>\n\n", playerScore, enemyScore);
+
+        endGameReults.text = display + extra;
+        
         PauseGame(2f);
     }
 

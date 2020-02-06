@@ -112,7 +112,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -59}
+  m_AnchoredPosition: {x: 0, y: -150}
   m_SizeDelta: {x: 1200, y: 250}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &222180535791694480
@@ -588,8 +588,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -450}
-  m_SizeDelta: {x: 500, y: 200}
+  m_AnchoredPosition: {x: 0, y: -600}
+  m_SizeDelta: {x: 700, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222895964735690532
 CanvasRenderer:
@@ -1155,7 +1155,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &224079249775776386
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1569,6 +1569,7 @@ MonoBehaviour:
   timerText: {fileID: 114365484153027622}
   playerScoreText: {fileID: 114104211835119342}
   enemyScoreText: {fileID: 114865356293694328}
+  replayGameButton: {fileID: 114418937504660506}
   cachedTimeTillCountdown: 30
   timeTillCountDown: 30
   endGameReults: {fileID: 114212036962547378}
@@ -1842,7 +1843,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0.00012207031, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222136616413349452
@@ -1899,7 +1900,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &224386225811586380
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2013,7 +2014,7 @@ GameObject:
   - component: {fileID: 114705783785276588}
   - component: {fileID: 114274765018298538}
   m_Layer: 0
-  m_Name: Text (1)
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2077,7 +2078,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PLAY
+  m_Text: "PLAY - 1\u20AC"
 --- !u!114 &114705783785276588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2176,7 +2177,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &224687704321939258
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2235,12 +2236,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '<color=#60FF42FF>[W,A,S,D]</color> to move
-
-    <color=#EDFF42FF>CLICK
-    </color> to shot
-
-    <color=#FF4242FF>MELT DOWN </color> to win!'
+  m_Text: 
 --- !u!114 &114065042230207802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2625,8 +2621,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aea2fb3399843f47b08e4453a7d2862, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTeamManager: {fileID: 0}
-  controllingPlayer: {fileID: 0}
   lr: {fileID: 120480585733907094}
 --- !u!120 &120480585733907094
 LineRenderer:
@@ -2782,7 +2776,7 @@ MonoBehaviour:
   isPlayerTeam: 1
   fieldHeight: 25
   destinationFluctuation: 1
-  playerController: {fileID: 0}
+  cachedDecisionTime: -1
 --- !u!1 &1941707748903104
 GameObject:
   m_ObjectHideFlags: 0
